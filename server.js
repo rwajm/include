@@ -1,20 +1,26 @@
 const express = require('express');
 const path = require('path');
-const dotenv = require('dotenv').config();
+
 const bodyParser = require('body-parser');
 
 const app = express();
-const member_board_router = require('./router/member_board');
+const memberBoardRouter = require('./router/memberRegister');
+const activityBoardRouter= require('./router/activity');
+
 
 app.set('port', process.env.PORT || 8080);
 
-// app.get('/', (req, res) =>{
-//     res.json({test : "hello!"});
-// });
+app.use(express.json());
+var cors = require('cors');
+app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(bodyParser.json());
 
-app.use('/memberBoard', member_board_router);
+app.use('/member', memberBoardRouter);
+app.use('/activity', activityBoardRouter);
+
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");

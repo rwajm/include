@@ -1,9 +1,8 @@
-import db from "../config/database";
+const db = require('../config/database');
 
-const ADMIN = (admin) => {
-    ADMIN.admin_id = admin.admin_id;
-    ADMIN.password = admin.password;
-    ADMIN.admin_name = admin.admin_name;
+const ADMIN = {
+    //회원가입은 구현은 할껀데, 외부로 보이게 하진 않을거임
+    //로그인 구현
 }
 
-export default ADMIN;
+module.exports = ADMIN;
