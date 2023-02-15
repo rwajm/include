@@ -31,7 +31,7 @@ const ADMIN = {
     
     //로그인 구현
     signin : {
-        findAdmin : (adminId) => {
+        findAdmin : (adminId, result) => {
             db.getConnection((err, connection) => {
                 if(!err) {
                     let sql = `SELECT * FROM admin_information
@@ -41,9 +41,9 @@ const ADMIN = {
     
                         if(err) {
                             console.log("sql error " + err);
-                            return err ;
+                            return result(null, err) ;
                         }
-                        return res;
+                        return result(null, res);
                     })
                 }
                 else    {
