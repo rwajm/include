@@ -5,7 +5,7 @@ const MEMBER = require('../model/member');
 // http://localhost:8080/member/:idx
 router.get('/:idx', async(req, res) => {
     
-    await MEMBER.getByidx((err, data) => {
+    await MEMBER.getByidx(req.params.idx, (err, data) => {
         try {
             res.json(data);
         }
@@ -14,9 +14,9 @@ router.get('/:idx', async(req, res) => {
         }
     })
 })
-
-// http://localhost:8080/member/list
-router.get('/list', async(req, res) => {
+    
+// http://localhost:8080/member
+router.get('/', async(req, res) => {
     
     await MEMBER.getAll((err, data) => {
         try {
@@ -67,7 +67,7 @@ router.post('/create', async(req, res) => {
 
 //update
 // http://localhost:8080/member/update/:idx
-router.put('/update/:idx', async(req, res) => {
+router.put('/:idx', async(req, res) => {
 
     let member = {
         name: req.body.name,
@@ -89,7 +89,7 @@ router.put('/update/:idx', async(req, res) => {
 })
 
 // http://localhost:8080/member/delete/:idx
-router.delete('/delete/:idx', async(req, res) => {
+router.delete('/:idx', async(req, res) => {
     
     await MEMBER.destroy(req.params.idx, (err, data) => {
         try {
