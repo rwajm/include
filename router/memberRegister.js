@@ -4,48 +4,44 @@ const MEMBER = require('../model/member');
 
 // http://localhost:8080/member/:reservedWord
 router.get('/:reservedWord', async(req, res) => {
-    //html
-    // let result = {
-    //     code : 404,
-    //     message : "Not found"
-    // }
-    
-    if(isNaN(req.params.reservedWord))  {
-        (req.params.reservedWord === 'create') 
-        ? res.render('member/create') //혹시 원하는 페이지로 이동하지 않는다면 여길 손봐주세요
-        : (req.params.reservedWord === 'update')
-        ? res.render('member/update')
-        : (req.params.reservedWord === 'list')
-        ? await MEMBER.getAll((err, data) => {
-            try {
-                res.render('member/list', { data })
-            }
-            catch(err)  {
-                console.error("router error " + err);
-                res.status(503);
-            }
-        })
-        : res.json(result)
-    }
-    else    {
-        await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
-            try {
-                res.json(data);
-                //res.render('member/detail', {data});
-            }
-            catch(err) {
-                console.error("router error " + err);
-                res.json(result);
-            }
-        })
-    }
 
-    //react
     let result = {
         code : 404,
         message : "Not found"
     }
+    
+    //html
+    // if(isNaN(req.params.reservedWord))  {
+    //     (req.params.reservedWord === 'create') 
+    //     ? res.render('member/create') //혹시 원하는 페이지로 이동하지 않는다면 여길 손봐주세요
+    //     : (req.params.reservedWord === 'update')
+    //     ? res.render('member/update')
+    //     : (req.params.reservedWord === 'list')
+    //     ? await MEMBER.getAll((err, data) => {
+    //         try {
+    //             res.render('member/list', { memberList : data })
+    //         }
+    //         catch(err)  {
+    //             console.error("router error " + err);
+    //             res.status(503);
+    //         }
+    //     })
+    //     : res.json(result)
+    // }
+    // else    {
+    //     await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
+    //         try {
+    //             res.json(data);
+    //             //res.render('member/detail', {memberDetail : data});
+    //         }
+    //         catch(err) {
+    //             console.error("router error " + err);
+    //             res.json(result);
+    //         }
+    //     })
+    // }
 
+    //react
     //list 문자열이 입력된다면
     //http://localhost:8080/member
     if(isNaN(req.params.reservedWord))  {
