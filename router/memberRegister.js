@@ -2,6 +2,19 @@ const express = require("express");
 const router = express.Router();
 const MEMBER = require('../model/member');
 
+// http://localhost:8080/member/:idx
+router.get('/:idx', async(req, res) => {
+    
+    await MEMBER.getByidx((err, data) => {
+        try {
+            res.json(data);
+        }
+        catch(err) {
+            console.error("router error " + err);
+        }
+    })
+})
+
 // http://localhost:8080/member/list
 router.get('/list', async(req, res) => {
     
