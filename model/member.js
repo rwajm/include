@@ -31,7 +31,7 @@ const MEMBER = {
 
         db.getConnection((err, connection) => {
             if(!err) {
-                let sql = `INSERT INTO member_board  VALUES (?)`;
+                let sql = `INSERT INTO member_board  VALUES ( ID_PK, ?)`;
                 connection.query(sql, [input], (err, res) => {
                     connection.release();
 
@@ -58,9 +58,8 @@ const MEMBER = {
         db.getConnection((err, connection) => {
             if(!err) {
                 let sql = `UPDATE member_board set name = ? , first_track = ?, second_track = ?, 
-                           git_hub = ? , phone_number = ? , 
-                           email = ?,  graduation =  ?
-                           WHERE idx = ${idx}`;
+                           git_hub = ? , email = ?,  graduation =  ?
+                           WHERE id = ${idx}`;
                 connection.query(sql, updateData, (err, res) => {
                     connection.release();
 
@@ -83,7 +82,7 @@ const MEMBER = {
     destroy : function(idx, result) {
         db.getConnection((err, connection) => {
             if(!err) {
-                let sql = `DELETE FROM member_board WHERE idx = ${idx}`;
+                let sql = `DELETE FROM member_board WHERE ID_PK = ${idx}`;
                 connection.query(sql, (err, res) => {
                     connection.release();
 
