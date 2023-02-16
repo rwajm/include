@@ -4,33 +4,33 @@ const MEMBER = require('../model/member');
 
 // http://localhost:8080/member/:reservedWord
 router.get('/:reservedWord', async(req, res) => {
-
-    let result = {
-        code : 404,
-        message : "Not found"
-    }
     
+    let query = req.query;
+    if(Object.keys(query) !== 'idx')
+        return res.status(503).send({ message : "ERROR"});
+   
+    let idx = Object.values(query);
     //html
     if(isNaN(req.params.reservedWord))  {
         if (req.params.reservedWord === 'post') {
-            let index
-            if(index === "")    {
-                await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
+            if(idx === "")
+                res.render('member/post');
+            else    {
+                await MEMBER.getByidx(idx, (err, data) => {
                     try {
-                        res.render('member/post', { beforePost : data })
+                        res.render('member/post', { memberDetail : data });
                     }
                     catch(err) {
                         console.error("router error " + err);
-                        res.json(result);
+                        res.status(404).json({ message : "Not Found" });
                     }
                 })
             }
-            else
-                res.render('member/post')
         }
         if (req.params.reservedWord === 'list') {
             await MEMBER.getAll((err, data) => {
                 try {
+                    //res.json(data);
                     res.render('member/list', { memberList : data })
                 }
                 catch(err)  {
@@ -39,13 +39,11 @@ router.get('/:reservedWord', async(req, res) => {
                 }
             })
         }
-        res.json(result)
     }
     else    {
         await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
             try {
-                res.json(data);
-                //res.render('member/detail', { memberDetail : data });
+                res.render('member/detail', { memberDetail : data });
             }
             catch(err) {
                 console.error("router error " + err);
@@ -57,30 +55,30 @@ router.get('/:reservedWord', async(req, res) => {
     //react
     //list 문자열이 입력된다면
     //http://localhost:8080/member
-    if(isNaN(req.params.reservedWord))  {
-        (req.params.reservedWord === 'list')
-        ? await MEMBER.getAll((err, data) => {
-            try {
-                res.json(data);
-            }
-            catch(err)  {
-                console.error("router error " + err);
-                res.json(result);
-            }
-        })
-        : res.json(result)
-    }
-    else    {
-        await MEMBER.getByidx(req.params.idx, (err, data) => {
-            try {
-                res.json(data);
-            }
-            catch(err) {
-                console.error("router error " + err);
-                res.json(result);
-            }
-        })
-    }
+    // if(isNaN(req.params.reservedWord))  {
+    //     (req.params.reservedWord === 'list')
+    //     ? await MEMBER.getAll((err, data) => {
+    //         try {
+    //             res.json(data);
+    //         }
+    //         catch(err)  {
+    //             console.error("router error " + err);
+    //             res.json(result);
+    //         }
+    //     })
+    //     : res.json(result)
+    // }
+    // else    {
+    //     await MEMBER.getByidx(req.params.idx, (err, data) => {
+    //         try {
+    //             res.json(data);
+    //         }
+    //         catch(err) {
+    //             console.error("router error " + err);
+    //             res.json(result);
+    //         }
+    //     })
+    // }
 })
 
 // http:localhost:8080/member/create
