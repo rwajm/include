@@ -24,7 +24,6 @@ router.get('/:reservedWord', async(req, res) => {
                         res.json(result);
                     }
                 })
-                res.render('member/post');
             }
             else
                 res.render('member/post')
