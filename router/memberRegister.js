@@ -11,35 +11,33 @@ router.get('/:reservedWord', async(req, res) => {
     }
     
     //html
-    // if(isNaN(req.params.reservedWord))  {
-    //     (req.params.reservedWord === 'create') 
-    //     ? res.render('member/create') //혹시 원하는 페이지로 이동하지 않는다면 여길 손봐주세요
-    //     : (req.params.reservedWord === 'update')
-    //     ? res.render('member/update')
-    //     : (req.params.reservedWord === 'list')
-    //     ? await MEMBER.getAll((err, data) => {
-    //         try {
-    //             res.render('member/list', { memberList : data })
-    //         }
-    //         catch(err)  {
-    //             console.error("router error " + err);
-    //             res.status(503);
-    //         }
-    //     })
-    //     : res.json(result)
-    // }
-    // else    {
-    //     await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
-    //         try {
-    //             res.json(data);
-    //             //res.render('member/detail', { memberDetail : data });
-    //         }
-    //         catch(err) {
-    //             console.error("router error " + err);
-    //             res.json(result);
-    //         }
-    //     })
-    // }
+    if(isNaN(req.params.reservedWord))  {
+        (req.params.reservedWord === 'create') 
+        ? res.render('member/create') //혹시 원하는 페이지로 이동하지 않는다면 여길 손봐주세요
+        : (req.params.reservedWord === 'list')
+        ? await MEMBER.getAll((err, data) => {
+            try {
+                res.render('member/list', { memberList : data })
+            }
+            catch(err)  {
+                console.error("router error " + err);
+                res.status(503);
+            }
+        })
+        : res.json(result)
+    }
+    else    {
+        await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
+            try {
+                res.json(data);
+                //res.render('member/detail', { memberDetail : data });
+            }
+            catch(err) {
+                console.error("router error " + err);
+                res.json(result);
+            }
+        })
+    }
 
     //react
     //list 문자열이 입력된다면
@@ -94,7 +92,7 @@ router.post('/create', async(req, res) => {
         }
     })
 })
-
+//수정 버튼 눌렀을 시 수정 페이지 렌더링 되어야함
 // http://localhost:8080/member/:idx
 router.put('/:idx', async(req, res) => {
 

@@ -1,26 +1,39 @@
 const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const bcrypt = require('bcrypt');
 const admin = require('../model/admin');
 
-module.exports = passport => {
-    passport.use(new LocalStrategy = (id, pwd, done) => {
-        let loggedIn = admin.signin(id, (err, user) => {
-            if (err)
-                return done(err);
-            if (!user)
-                return done(null, false, { message: 'Not admin' });
+module.exports = () => {
+    passport.serializeUser((user, done) => {
+        done(null, { id : user.id, name : user.name });
+    });
+  
+    passport.deserializeUser((id, done) => {
+        admin.signin.findAdmin(id)
+        .then((user) => { done(null, user); })
+        .catch((err) => { done(err, null); });
+    });
 
-
-            let checkPassword = bcrypt.compare(pwd, loggedIn.password);
-
-            if (checkPassword === false)
-                return done(null, false, { message: 'Incorrect password.' })
-
-            return done(null, loggedIn);
-        })
-    })
+    passport.use(new LocalStrategy({
+        usernameField: 'id',
+        passwordField: 'pw' 
+    }, (id, pwd, done) => {
+            admin.signin.findAdmin(id)
+                .then((user) => {
+                    if (!user)
+                        return done(null, false), { message: 'Not admin' };
+                    if (!bcrypt.compareSync(pwd, user.pwd))
+                        return done(null, false, { message: 'wrong password' });
+                    else
+                        return done(null, user);
+                })
+                .catch((err) => {
+                    return done(err);
+                })
+    
+            }
+        )
+    )
 }
 
 
-
-module.exports = local;

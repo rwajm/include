@@ -2,10 +2,23 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const passportConfig = require('./auth/localStrategy');
+require('dotenv').config();
+
 //얘 뭐임?
 //const logger = require('morgan');
 let session = require('express-session');
-let SQLiteStore = require('connect-sqlite3')(session);
+let SQLStore = require('express-mysql-session')(session);
+
+let options = {
+    host: process.env.host,
+    port: '3306',
+    user: process.env.user,
+    password: process.env.password,
+    database: 'include'
+};
+
+let sessionStore = new SQLStore(options);
 
 const app = express();
 
@@ -21,6 +34,15 @@ app.set('port', process.env.PORT || 8080);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret:process.env.secret,
+    resave : false,
+    saveUninitialized : true,
+    store : sessionStore
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig();
 
 //html
 app.set('views', path.join(__dirname, 'views'));
@@ -29,7 +51,7 @@ app.engine('html', require('ejs').__express);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //react
-// var cors = require('cors');
+// let cors = require('cors');
 // app.use(cors());
 // app.use(express.static(path.join(__dirname, 'build')));
 
