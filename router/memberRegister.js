@@ -32,7 +32,7 @@ router.get('/:reservedWord', async(req, res) => {
     //     await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
     //         try {
     //             res.json(data);
-    //             //res.render('member/detail', {memberDetail : data});
+    //             //res.render('member/detail', { memberDetail : data });
     //         }
     //         catch(err) {
     //             console.error("router error " + err);
@@ -76,7 +76,6 @@ router.post('/create', async(req, res) => {
     //로그인되어있는게 맞는지, 그렇지 않다면 list로 되돌아가게끔
 
     let registerInfo = {
-        idx: req.body.idx,
         studentID: req.body.studentID,
         name: req.body.name,
         first_track: req.body.first_track,
@@ -96,14 +95,7 @@ router.post('/create', async(req, res) => {
     })
 })
 
-//CRUD
-
-//Read - select, get
-//Create - insert, post
-//Update - update, put
-
-//update
-// http://localhost:8080/member/update/:idx
+// http://localhost:8080/member/:idx
 router.put('/:idx', async(req, res) => {
 
     let member = {
@@ -117,7 +109,11 @@ router.put('/:idx', async(req, res) => {
 
     await MEMBER.modify(req.params.idx, member, (err, data) => {
         try {
+            //react
             res.json(data);
+
+            //html
+            //res.redirect('/member/list');
         }
         catch(err)  {
             console.error(err);
@@ -125,12 +121,16 @@ router.put('/:idx', async(req, res) => {
     })
 })
 
-// http://localhost:8080/member/delete/:idx
+// http://localhost:8080/member/:idx
 router.delete('/:idx', async(req, res) => {
     
     await MEMBER.destroy(req.params.idx, (err, data) => {
         try {
+            //react
             res.json(data);
+
+            //html
+            //res.redirect('/member/list');
         }
         catch(err) {
             console.error(err);
