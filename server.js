@@ -60,9 +60,9 @@ app.use('/activity', activityBoardRouter);
 app.use('/signup', signupRouter);
 app.use('/', signinRouter);
 
-app.get('/', (req, res) => {
-    res.render('home.html');
-})
+// app.get('/', (req, res) => {
+//     res.render('home.html');
+// })
 
 app.listen(app.get('port'), (req, res) => {
     console.log(app.get('port'), "빈 포트에서 대기");

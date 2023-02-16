@@ -12,19 +12,35 @@ router.get('/:reservedWord', async(req, res) => {
     
     //html
     if(isNaN(req.params.reservedWord))  {
-        (req.params.reservedWord === 'create') 
-        ? res.render('member/create') //혹시 원하는 페이지로 이동하지 않는다면 여길 손봐주세요
-        : (req.params.reservedWord === 'list')
-        ? await MEMBER.getAll((err, data) => {
-            try {
-                res.render('member/list', { memberList : data })
+        if (req.params.reservedWord === 'post') {
+            let index
+            if(index === "")    {
+                await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
+                    try {
+                        res.render('member/post', { beforePost : data })
+                    }
+                    catch(err) {
+                        console.error("router error " + err);
+                        res.json(result);
+                    }
+                })
+                res.render('member/post');
             }
-            catch(err)  {
-                console.error("router error " + err);
-                res.status(503);
-            }
-        })
-        : res.json(result)
+            else
+                res.render('member/post')
+        }
+        if (req.params.reservedWord === 'list') {
+            await MEMBER.getAll((err, data) => {
+                try {
+                    res.render('member/list', { memberList : data })
+                }
+                catch(err)  {
+                    console.error("router error " + err);
+                    res.status(503);
+                }
+            })
+        }
+        res.json(result)
     }
     else    {
         await MEMBER.getByidx(req.params.reservedWord, (err, data) => {
