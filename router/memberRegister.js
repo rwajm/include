@@ -61,7 +61,7 @@ router.get('/:reservedWord', async (req, res) => {
                 if (data.length === 0)
                     res.status(404).json({ message: "Not Found" });
                 else
-                    res.render('member/post', { type: value[0], memberDetail: data[0] });
+                    res.render('member/detail', { memberDetail: data[0] });
             }
             catch (err) {
                 console.error("router error " + err);
@@ -99,58 +99,117 @@ router.get('/:reservedWord', async (req, res) => {
     // }
 })
 
-// http:localhost:8080/member/create
-router.post('/create', async (req, res) => {
+// http:localhost:8080/member/post?type=create
+router.post('/post', async (req, res) => {
 
-    //로그인되어있는게 맞는지, 그렇지 않다면 list로 되돌아가게끔
-    let registerInfo = {
-        studentID: req.body.studentID,
-        name: req.body.name,
-        first_track: req.body.first_track,
-        second_track: req.body.second_track,
-        git_hub: req.body.git_hub,
-        email: req.body.email,
-        graduation: 0
+    let key = Object.keys(req.query);
+    let value = Object.values(req.query);
+
+    if (key.length !== 1 && key.toString() === 'type' && value.toString() === 'create') {
+        let registerInfo = {
+            studentID: req.body.studentID,
+            name: req.body.name,
+            first_track: req.body.first_track,
+            second_track: req.body.second_track,
+            git_hub: req.body.git_hub,
+            email: req.body.email,
+            graduation: 0
+        }
+
+        await MEMBER.create(registerInfo, (err, data) => {
+            try {
+                //react
+                //res.json(data);
+
+                //html
+                res.redirect('/member/list');
+            }
+            catch (err) {
+                console.error(err);
+            }
+        })
     }
+    res.status(400).json({ message: "Forbidden" });
+    
+    // let registerInfo = {
+    //     studentID: req.body.studentID,
+    //     name: req.body.name,
+    //     first_track: req.body.first_track,
+    //     second_track: req.body.second_track,
+    //     git_hub: req.body.git_hub,
+    //     email: req.body.email,
+    //     graduation: 0
+    // }
 
-    await MEMBER.create(registerInfo, (err, data) => {
-        try {
-            //react
-            //res.json(data);
+    // await MEMBER.create(registerInfo, (err, data) => {
+    //     try {
+    //         //react
+    //         //res.json(data);
 
-            //html
-            res.redirect('/member/list');
-        }
-        catch (err) {
-            console.error(err);
-        }
-    })
+    //         //html
+    //         res.redirect('/member/list');
+    //     }
+    //     catch (err) {
+    //         console.error(err);
+    //         res.status(400).json({ message: "Forbidden" });
+    //     }
+    // })
 })
+
 //수정 버튼 눌렀을 시 수정 페이지 렌더링 되어야함
-// http://localhost:8080/member/:idx
-router.put('/:idx', async (req, res) => {
+// http://localhost:8080/member/post?type=update&idx=
+router.put('/post', async (req, res) => {
 
-    let member = {
-        name: req.body.name,
-        first_track: req.body.first_track,
-        second_track: req.body.second_track,
-        git_hub: req.body.git_hub,
-        email: req.body.email,
-        graduation: 0
+    let key = Object.keys(req.query);
+    let value = Object.values(req.query);
+
+    if (key.length !== 1 && key.toString() === 'type' && value.toString() === 'update') {
+        let member = {
+            name: req.body.name,
+            first_track: req.body.first_track,
+            second_track: req.body.second_track,
+            git_hub: req.body.git_hub,
+            email: req.body.email,
+            graduation: 0
+        }
+    
+        await MEMBER.modify(req.params.idx, member, (err, data) => {
+            try {
+                //react
+                res.json(data);
+    
+                //html
+                //res.redirect('/member/list');
+            }
+            catch (err) {
+                console.error(err);
+            }
+        })
     }
+    res.status(400).json({ message: "Forbidden" });
 
-    await MEMBER.modify(req.params.idx, member, (err, data) => {
-        try {
-            //react
-            res.json(data);
+    // let member = {
+    //     name: req.body.name,
+    //     first_track: req.body.first_track,
+    //     second_track: req.body.second_track,
+    //     git_hub: req.body.git_hub,
+    //     email: req.body.email,
+    //     graduation: 0
+    // }
 
-            //html
-            //res.redirect('/member/list');
-        }
-        catch (err) {
-            console.error(err);
-        }
-    })
+    // await MEMBER.modify(req.params.idx, member, (err, data) => {
+    //     try {
+    //         //react
+    //         res.json(data);
+
+    //         //html
+    //         //res.redirect('/member/list');
+    //     }
+    //     catch (err) {
+    //         console.error(err);
+    //         res.status(400).json({ message: "Forbidden" });
+    //     }
+    // })
 })
 
 // http://localhost:8080/member/:idx
