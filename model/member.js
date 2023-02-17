@@ -23,7 +23,7 @@ const MEMBER = {
             }
         })
     },
-
+    
     getByidx : (idx, result) => {
         db.getConnection((err, connection) => {
             if(!err) {
