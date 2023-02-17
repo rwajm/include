@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const passportConfig = require('./auth/localStrategy');
+const methodOverride = require('method-override');
 require('dotenv').config();
 
 //얘 뭐임?
@@ -43,6 +44,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 passportConfig();
+app.use(methodOverride('_method'));
 
 //html
 app.set('views', path.join(__dirname, 'views'));
