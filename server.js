@@ -6,6 +6,9 @@ const passportConfig = require('./auth/localStrategy');
 const methodOverride = require('method-override');
 require('dotenv').config();
 
+const app = express();
+app.use(methodOverride('_method'));
+
 //얘 뭐임?
 //const logger = require('morgan');
 let session = require('express-session');
@@ -21,12 +24,15 @@ let options = {
 
 let sessionStore = new SQLStore(options);
 
-const app = express();
 
 app.use('/public',express.static(path.join(__dirname, 'public')));
 
-const memberBoardRouter = require('./router/memberRegister');
-const activityBoardRouter= require('./router/activity');
+//html
+//const memberBoardRouter = require('./router/memberRegister_html');
+//const activityBoardRouter= require('./router/activity_html');
+// react
+const memberBoardRouter = require('./router/memberRegister_react');
+const activityBoardRouter = require('./router/activity_react');
 const signinRouter = require('./router/signin');
 const signupRouter = require('./router/signup');
 
@@ -44,21 +50,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 passportConfig();
-app.use(methodOverride('_method'));
 
 //html
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine','ejs');
-app.engine('html', require('ejs').__express);
-app.use('/public', express.static(path.join(__dirname, 'public')));
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine','ejs');
+// app.engine('html', require('ejs').__express);
 
 //react
-// let cors = require('cors');
-// app.use(cors());
-// app.use(express.static(path.join(__dirname, 'build')));
+let cors = require('cors');
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/member', memberBoardRouter);
-app.use('/activity', activityBoardRouter);
+//app.use('/activity', activityBoardRouter);
 app.use('/signup', signupRouter);
 app.use('/', signinRouter);
 

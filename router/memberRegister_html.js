@@ -61,7 +61,8 @@ router.get('/:reservedWord', async (req, res) => {
                 if (data.length === 0)
                     res.status(404).json({ message: "Not Found" });
                 else
-                    res.render('member/detail', { memberDetail: data[0] });
+                    res.json(data);    
+                //res.render('member/detail', { memberDetail: data[0] });
             }
             catch (err) {
                 console.error("router error " + err);
@@ -69,43 +70,19 @@ router.get('/:reservedWord', async (req, res) => {
             }
         })
     }
-
-    //react
-    //list 문자열이 입력된다면
-    //http://localhost:8080/member
-    // if(isNaN(req.params.reservedWord))  {
-    //     (req.params.reservedWord === 'list')
-    //     ? await MEMBER.getAll((err, data) => {
-    //         try {
-    //             res.json(data);
-    //         }
-    //         catch(err)  {
-    //             console.error("router error " + err);
-    //             res.json(result);
-    //         }
-    //     })
-    //     : res.json(result)
-    // }
-    // else    {
-    //     await MEMBER.getByidx(req.params.idx, (err, data) => {
-    //         try {
-    //             res.json(data);
-    //         }
-    //         catch(err) {
-    //             console.error("router error " + err);
-    //             res.json(result);
-    //         }
-    //     })
-    // }
 })
+
+// http://localhost:8080/member/post?type=create
+//http://localhost:8080/member/post?type=update&idx=
 
 // http:localhost:8080/member/post?type=create
 router.post('/post', async (req, res) => {
 
+    //html
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
 
-    if (key.length !== 1 && key.toString() === 'type' && value.toString() === 'create') {
+    if (key.length === 1 && key.toString() === 'type' && value.toString() === 'create') {
         let registerInfo = {
             studentID: req.body.studentID,
             name: req.body.name,
@@ -115,13 +92,8 @@ router.post('/post', async (req, res) => {
             email: req.body.email,
             graduation: 0
         }
-
         await MEMBER.create(registerInfo, (err, data) => {
             try {
-                //react
-                //res.json(data);
-
-                //html
                 res.redirect('/member/list');
             }
             catch (err) {
@@ -129,41 +101,7 @@ router.post('/post', async (req, res) => {
             }
         })
     }
-    res.status(400).json({ message: "Forbidden" });
-    
-    // let registerInfo = {
-    //     studentID: req.body.studentID,
-    //     name: req.body.name,
-    //     first_track: req.body.first_track,
-    //     second_track: req.body.second_track,
-    //     git_hub: req.body.git_hub,
-    //     email: req.body.email,
-    //     graduation: 0
-    // }
-
-    // await MEMBER.create(registerInfo, (err, data) => {
-    //     try {
-    //         //react
-    //         //res.json(data);
-
-    //         //html
-    //         res.redirect('/member/list');
-    //     }
-    //     catch (err) {
-    //         console.error(err);
-    //         res.status(400).json({ message: "Forbidden" });
-    //     }
-    // })
-})
-
-//수정 버튼 눌렀을 시 수정 페이지 렌더링 되어야함
-// http://localhost:8080/member/post?type=update&idx=
-router.put('/post', async (req, res) => {
-
-    let key = Object.keys(req.query);
-    let value = Object.values(req.query);
-
-    if (key.length !== 1 && key.toString() === 'type' && value.toString() === 'update') {
+    else if (key.length === 2 && key[0].toString() === 'type' && value[0].toString() === 'update')  {
         let member = {
             name: req.body.name,
             first_track: req.body.first_track,
@@ -172,47 +110,20 @@ router.put('/post', async (req, res) => {
             email: req.body.email,
             graduation: 0
         }
-    
-        await MEMBER.modify(req.params.idx, member, (err, data) => {
+        await MEMBER.modify(value[1], member, (err, data) => {
             try {
-                //react
-                res.json(data);
-    
-                //html
-                //res.redirect('/member/list');
+
+                res.redirect('/member/list');
             }
             catch (err) {
                 console.error(err);
             }
         })
     }
-    res.status(400).json({ message: "Forbidden" });
-
-    // let member = {
-    //     name: req.body.name,
-    //     first_track: req.body.first_track,
-    //     second_track: req.body.second_track,
-    //     git_hub: req.body.git_hub,
-    //     email: req.body.email,
-    //     graduation: 0
-    // }
-
-    // await MEMBER.modify(req.params.idx, member, (err, data) => {
-    //     try {
-    //         //react
-    //         res.json(data);
-
-    //         //html
-    //         //res.redirect('/member/list');
-    //     }
-    //     catch (err) {
-    //         console.error(err);
-    //         res.status(400).json({ message: "Forbidden" });
-    //     }
-    // })
+    else
+        res.status(400).json({ message: "Forbidden" });
 })
 
-// http://localhost:8080/member/:idx
 router.delete('/:idx', async (req, res) => {
 
     await MEMBER.destroy(req.params.idx, (err, data) => {
@@ -229,4 +140,4 @@ router.delete('/:idx', async (req, res) => {
     })
 })
 
-module.exports = router
+module.exports = router;
