@@ -61,8 +61,7 @@ router.get('/:reservedWord', async (req, res) => {
                 if (data.length === 0)
                     res.status(404).json({ message: "Not Found" });
                 else
-                    res.json(data);    
-                //res.render('member/detail', { memberDetail: data[0] });
+                    res.render('member/detail', { memberDetail: data[0] });
             }
             catch (err) {
                 console.error("router error " + err);
@@ -113,7 +112,7 @@ router.post('/post', async (req, res) => {
         await MEMBER.modify(value[1], member, (err, data) => {
             try {
 
-                res.redirect('/member/list');
+                res.redirect(`/member/${value[1]}`);
             }
             catch (err) {
                 console.error(err);
@@ -128,11 +127,7 @@ router.delete('/:idx', async (req, res) => {
 
     await MEMBER.destroy(req.params.idx, (err, data) => {
         try {
-            //react
-            res.json(data);
-
-            //html
-            //res.redirect('/member/list');
+            res.redirect('/member/list');
         }
         catch (err) {
             console.error(err);
