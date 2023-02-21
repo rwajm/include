@@ -1,0 +1,90 @@
+<script>
+    function yeardropdown() {
+        let year = document.getElementsByClassName("year");
+        let curyear = new Date().getFullYear();
+        for (let i=curyear; i>=1970; i--) {
+            year[0].insertAdjacentHTML("afterbegin", "<option value='"+i+"''>"+i+"</option>");
+            year[1].insertAdjacentHTML("afterbegin", "<option value='"+i+"''>"+i+"</option>");
+        }
+    }
+</script>
+<div id="post" class="form">
+    <div id="post-wrapper">
+        <form id="postform" method="post" action="/member/create">
+            <div id="post-container">
+                <div id="post-ID">
+                    <div class="heading">*학번/이름</div>
+                    <div class="input">
+                        <div>
+                            <input name="studentID" type="text" placeholder="학번" />
+                            &nbsp;
+                            <input name="name" type="text" placeholder="이름" />
+                        </div>
+                    </div>
+                </div>
+                <div id="post-season">
+                    <div class="heading">*활동 시기</div>
+                    <div class="input">
+                        <div class="wrap">
+                            <div class="nowrap">
+                                <select name="join-year" class="year">
+                                </select>
+                                년도&nbsp;
+                                <select name="join-semester" class="semester">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                학기
+                            </div>
+                            <div class="nowrap">
+                                &nbsp;~&nbsp;
+                                <select name="leave-year" class="year"></select>
+                                년도&nbsp;
+                                <select name="leave-semester"  class="semester">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                학기
+                            </div>
+                        </div>
+                        <div>
+                            <input name="graduation" type="checkbox" />졸업
+                        </div>
+                    </div>
+                </div>
+                <div id="post-track">
+                    <div class="heading">*트랙</div>
+                    <div class="input">
+                        <div>
+                            <input name="first_track" type="text" placeholder="1트랙" />
+                            &nbsp;
+                            <input name="second_track" type="text" placeholder="2트랙" />
+                        </div>
+                    </div>
+                </div>
+                <div id="post-github">
+                    <div class="heading">Github</div>
+                    <div class="input">
+                        <div>
+                            <input name="git_hub" type="text" placeholder="Github 주소" class="input" />
+                        </div>
+                    </div>
+                </div>
+                <div id="post-email">
+                    <div class="heading">이메일</div>
+                    <div class="input">
+                        <div>
+                            <input name="email" type="text" placeholder="email 주소" class="input" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="buttonrow">
+                <input type="submit" value="추가" style="float: right;">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    yeardropdown();
+</script>

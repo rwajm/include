@@ -1,0 +1,16 @@
+<% memberList.forEach((data) => { %>
+    <div id="<%=data.ID_PK%>" class="list">
+        <a href='./<%=data.ID_PK%>'>
+            <div class="data member">
+                <div>
+                    <div style="font-size: 14px;">
+                        <b><%=data.studentID%>&nbsp<%=data.name%></b>&nbsp&nbsp&nbsp
+                    </div>
+                    <div style="font-size: 12px;">
+                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%=data.first_track%> | <%=data.second_track%></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div> 
+<% }) %>
