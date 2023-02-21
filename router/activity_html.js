@@ -68,6 +68,34 @@ router.get('/list', async(req, res) => {
         res.status(400).json({ message: "Forbidden" });
 })
 
+router.get('/post', async(req, res) => {
+    let key = Object.keys(req.query);
+    let value = Object.values(req.query);
+    let compare = Boolean;
+
+    if(key.length === 1)
+        compare = ([ key ].toString() === [ 'idx' ].toString())
+
+    if(key.length === 1 && compare) {
+        // http://localhost:8080/activity/post?idx=
+        await activity.getActivityById(value, (err, data) => {
+            try {
+                if(data !== null)    {
+                    console.log(data);
+                    res.render('activity/detail', { data : data });
+                }
+                else if(err !== null)
+                    res.json(err);
+            }
+            catch(err)  {
+                console.log("activity post router error " + err);
+            }
+        })
+    }
+    else
+        res.redirect('/activity/list');
+})
+
 router.post('/post', async(req, res) => {
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
@@ -113,7 +141,7 @@ router.post('/post', async(req, res) => {
         await activity.create(activityInfo, (err, data) => {
             try {
                 if(data !==  null)    {
-                    res.redirect('back');
+                    res.redirect(`member/list?year=${activityInfo.year}&semester=${activityInfo.semester}`);
                 }
                 else if(err !== null)
                     res.json(err);
@@ -134,7 +162,7 @@ router.delete('/list', async(req, res) => {
     await activity.destroy(id, (err, data) => {
         try {
             if(data !== null) {
-                res.redirect('back');
+                res.redirect('/member/list');
             }
             else if(err !== null)
                 res.json(err);

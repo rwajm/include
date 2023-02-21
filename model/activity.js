@@ -4,8 +4,7 @@ const ACTIVITY = {
     getAll : (result) => {
         db.getConnection((err, connection) => {
             if(!err) {
-                let sql = `SELECT YEAR, SEMESTER, TITLE, COMPLETE
-                           FROM ACTIVITY_BOARD_TB`;
+                let sql = `SELECT * FROM ACTIVITY_BOARD_TB`;
                 connection.query(sql, (err, res) => {
                     connection.release();
 
@@ -24,13 +23,11 @@ const ACTIVITY = {
             }
         })
     },
-
     getActivityByPeriod : (data, result) => {
         let period = {
             year : data[0],
             semester : data[1]
         }
-
         db.getConnection((err, connection) => {
             if(!err) {
                 let sql = `SELECT YEAR, SEMESTER, DETAILS, TITLE, COMPLETE FROM ACTIVITY_BOARD_TB
