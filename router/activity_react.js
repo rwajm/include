@@ -60,7 +60,6 @@ router.post('/post', async(req, res) => {
         title : req.body.title,
         complete : req.body.complete
     }
-    console.log(activityInfo);
     
     await activity.create(activityInfo, (err, data) => {
         try {
