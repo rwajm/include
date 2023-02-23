@@ -20,7 +20,6 @@
                 <div id="post" class="form">
                     <div id="post-wrapper">
                     <% if (idx === false) { %>
-                        <% let data = {"",}; %>
                         <form id="postform" method="post" action = "/activity/post">
                     <% } else { %>
                         <form id="postform" method="post" action = "/activity/post?idx=<%=data.ID_PK%>">

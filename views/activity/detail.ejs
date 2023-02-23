@@ -21,19 +21,19 @@
                     <div id="dataarea-wrapper">
                         <div class="data member detail">
                             <div>
-                                <b>[<%=activityById.COMPLETE%>]&nbsp<%=activityById.TITLE%></b>
+                                <b>[<%=activityList.COMPLETE%>]&nbsp<%=activityList.TITLE%></b>
                             </div>
                             <div>
-                                <%=activityById.YEAR%>년도 <%=activityById.SEMESTER%>학기
+                                <%=activityList.YEAR%>년도 <%=activityList.SEMESTER%>학기
                             </div>
                             <div>
-                                내용<br><%=activityById.DETAILS%>
+                                내용<br><%=activityList.DETAILS%>
                             </div>
                         </div>
                     </div>
                     <div class="buttonrow">
-                        <input type="button" value="수정" onclick="location.href='./post?idx=<%=activityById.ID_PK%>'">
-                        <form method="post" action="/activity/list?idx=<%=activityById.ID_PK%>">
+                        <input type="button" value="수정" onclick="location.href='./post?idx=<%=activityList.ID_PK%>'">
+                        <form method="post" action="/activity/list?idx=<%=activityList.ID_PK%>">
                             <input type="hidden" name="_method" value="delete">
                             <input type="submit" value="삭제">
                         </form>

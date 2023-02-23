@@ -32,11 +32,9 @@
                     <div id="post-wrapper">
                     <% let disabled = ""; %>
                     <% if (type === 'create') { %>
-                        <% let memberDetail = ""; %>
-                        <% disabled = "false"; %>
                         <form id="postform" method="post" action="/member/post?type=create">
                     <% } else if (type === 'update') { %>
-                        <% disabled = "true"; %>
+                        <% disabled = "disabled"; %>
                         <form id="postform" method="post" action="/member/post?type=update&idx=<%=memberDetail.ID_PK%>">
                             <input type="hidden" name="_method" value="put"/>
                     <% } %>
@@ -45,7 +43,7 @@
                                     <div class="heading">*학번/이름</div>
                                     <div class="input">
                                         <div>
-                                            <input name="studentID" type="text" placeholder="학번" value="<%=memberDetail.studentID%>" disabled=<%=disabled%> />
+                                            <input name="studentID" type="text" placeholder="학번" value="<%=memberDetail.studentID%>" <%=disabled%> />
                                             &nbsp;
                                             <input name="name" type="text" placeholder="이름" value="<%=memberDetail.name%>"/>
                                         </div>
