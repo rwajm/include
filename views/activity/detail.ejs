@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../public/css/main.css" type="text/css" />
+    <title>Admin:Member - #Include</title>
+</head>
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <%- include ('../header.ejs') %>
+        </header>
+        <div id="container">
+            <div id="container-wrapper">
+                <div id="page-header">
+                    <h1 id="page-title">활동 상세</h1>
+                </div>
+                <div id="page-content">
+                    <div id="dataarea-wrapper">
+                        <div class="data member detail">
+                            <div>
+                                <b>[<%=activityById.COMPLETE%>]&nbsp<%=activityById.TITLE%></b>
+                            </div>
+                            <div>
+                                <%=activityById.YEAR%>년도 <%=activityById.SEMESTER%>학기
+                            </div>
+                            <div>
+                                내용<br><%=activityById.DETAILS%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttonrow">
+                        <input type="button" value="수정" onclick="location.href='./post?idx=<%=activityById.ID_PK%>'">
+                        <form method="post" action="/activity/list?idx=<%=activityById.ID_PK%>">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="submit" value="삭제">
+                        </form>
+                        <input type="button" value="목록" onclick="location.href='./list'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+            <%- include ('../footer.ejs') %>
+        </footer>
+    </div>
+</body>
+</html>

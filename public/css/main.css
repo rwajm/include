@@ -180,11 +180,19 @@ textarea {
 
 .list {
     width: 100%;
+}
+
+.data > div > div {
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#dataarea-wrapper .member {
+#dataarea-wrapper .data {
     background-color: rgba(255, 255, 255, 0.5);
+}
+
+#dataarea-wrapper .activity {
     margin: 0.25rem;
 }
 
@@ -192,7 +200,7 @@ textarea {
     width: 100%;
 }
 
-#dataarea-wrapper .member > div {
+#dataarea-wrapper .activity > div {
     padding: 1rem 1.5rem;
 }
 

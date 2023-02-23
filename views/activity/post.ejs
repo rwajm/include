@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/main.css">
-    <title>Admin:Archive - #Include</title>
+    <link rel="stylesheet" href="../../public/css/main.css" type="text/css" />
+    <title>Admin:Activity - #Include</title>
 </head>
 <body>
     <div id="wrapper">
@@ -15,65 +15,65 @@
         <div id="container">
             <div id="container-wrapper">
                 <div id="page-header">
-                    <h1 id="page-title">활동 기록</h1>
+                    <h1 id="page-title">멤버 정보</h1>
                 </div>
-                <div id="post">
+                <div id="post" class="form">
                     <div id="post-wrapper">
-                        <form id="postform" action="/" method="post">
-                            <div id="post-header">
-                                <div style="font-size: 1.17em;">Post</div>
-                                <div class="buttonrow"><input type="submit" value="추가" style="float: right;"></div>
-                            </div>
+                    <% if (idx === false) { %>
+                        <% let data = {"",}; %>
+                        <form id="postform" method="post" action = "/activity/post">
+                    <% } else { %>
+                        <form id="postform" method="post" action = "/activity/post?idx=<%=data.ID_PK%>">
+                    <% } %>
                             <div id="post-container">
+                                <div id="post-title">
+                                    <div class="heading">제목</div>
+                                    <div class="input">
+                                        <div>
+                                            <input name="title" type="text" placeholder="제목" class="input" value="<%=data.TITLE%>" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="post-season">
                                     <div class="heading">활동 시기</div>
                                     <div class="input">
-                                        <input type="month" name="month-start"/>
-                                        &nbsp;~&nbsp;
-                                        <input type="month" name="month-finish"/>
+                                        <div class="wrap">
+                                            <div class="nowrap">
+                                                <select name="year" class="year">
+                                                    <% let curyear = new Date().getFullYear() %>
+                                                    <% for (let i = curyear; i >= 2000; i--) { %>
+                                                        <option value="<%= i.toString().substr(-2)%>" <%= data.YEAR == i.toString().substr(-2) ? 'selected' : ''%>><%=i%></option>
+                                                        if 
+                                                    <% } %>
+                                                </select>
+                                                년도&nbsp;
+                                                <select name="semester" class="semester">
+                                                    <option value="1" <%= data.SEMESTER == '1' ? 'selected' : '' %>>1</option>
+                                                    <option value="2" <%= data.SEMESTER == '2' ? 'selected' : '' %>>2</option>
+                                                </select>
+                                                학기
+                                                <select name="complete" class="complete">
+                                                    <option value="1" <%= data.COMPLETE == '1' ? 'selected' : '' %>>진행중</option>
+                                                    <option value="2" <%= data.COMPLETE == '2' ? 'selected' : '' %>>종료(완성)</option>
+                                                    <option value="0" <%= data.COMPLETE == '0' ? 'selected' : '' %>>종료(미완성)</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="post-title">
-                                    <div class="heading">활동 이름</div>
-                                    <input type="text" alt="제목" name="activity-title" class="input">
+                                <div id="post-details">
+                                    <div class="heading">설명</div>
+                                    <div class="input">
+                                        <div>
+                                            <textarea name="details" type="text" placeholder="설명" class="input"><%=data.DETAILS%></textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="post-contents">
-                                    <div class="heading">활동 내용</div>
-                                    <textarea name="activity-details" placeholder="내용 입력" class="input"></textarea>
-                                </div>
-                                <div id="post-partmem">
-                                    <div class="heading">참여 멤버</div>
-                                    <input type="text" name="activity-partmem" class="input">
-                                </div>
+                            </div>
+                            <div class="buttonrow">
+                                <input type="submit" value="완료" style="float: right;">
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div id="page-content">
-                    <div id="archive-dropdown" class="flexend">
-                        <div class="dropdown-wrapper">
-                            <div class="dropdown">
-                                <select>
-                                    <option>연도선택</option>
-                                </select>
-                            </div>
-                            <div class="dropdown">
-                                <select>
-                                    <option>학기선택</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dataarea-wrapper">
-                        <div class="data archivedata">
-                            archivedata1. <button type="button">수정</button><br>
-                        </div>
-                        <div class="data archivedata">
-                            archivedata2. <button type="button">수정</button><br>
-                        </div>
-                        <div class="data archivedata">
-                            archivedata3. <button type="button">수정</button><br>
-                        </div>
                     </div>
                 </div>
             </div>

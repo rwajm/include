@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../public/css/main.css" type="text/css" />
-    <title>Signup - #Include</title>
+    <title>Admin:Signup - #Include</title>
 </head>
 <body>
     <div id="wrapper">
@@ -15,87 +15,26 @@
         <div id="container">
             <div id="container-wrapper">
                 <div id="page-header">
-                    <h1 id="page-title">멤버 정보</h1>
+                    <h1 id="page-title">관리자 가입</h1>
                 </div>
                 <div id="post" class="form">
                     <div id="post-wrapper">
-                    <% let disabled = ""; %>
-                    <% if (type === 'create') { %>
-                        <% let memberDetail = ""; %>
-                        <% disabled = "false"; %>
-                        <form id="postform" method="post" action="/member/post?type=create">
-                    <% } else if (type === 'update') { %>
-                        <% disabled = "true"; %>
-                        <form id="postform" method="post" action="/member/post?type=update&idx=<%=memberDetail.ID_PK%>">
+                        <form id="postform" method="post" action="/signup/">
                             <input type="hidden" name="_method" value="put"/>
-                    <% } %>
                             <div id="post-container">
                                 <div id="post-ID">
-                                    <div class="heading">*학번/이름</div>
+                                    <div class="heading">ID</div>
                                     <div class="input">
                                         <div>
-                                            <input name="studentID" type="text" placeholder="학번" value="<%=memberDetail.studentID%>" disabled=<%=disabled%> />
-                                            &nbsp;
-                                            <input name="name" type="text" placeholder="이름" value="<%=memberDetail.name%>"/>
+                                            <input name="id" type="text" placeholder="ID" />
                                         </div>
                                     </div>
                                 </div>
-                                <div id="post-season">
-                                    <div class="heading">*활동 시기</div>
-                                    <div class="input">
-                                        <!-- <div class="wrap">
-                                            <div class="nowrap">
-                                                <select name="join-year" class="year">
-                                                </select>
-                                                년도&nbsp;
-                                                <select name="join-semester" class="semester">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                </select>
-                                                학기
-                                            </div>
-                                            <div class="nowrap">
-                                                &nbsp;~&nbsp;
-                                                <select name="leave-year" class="year"></select>
-                                                년도&nbsp;
-                                                <select name="leave-semester"  class="semester">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                </select>
-                                                학기
-                                            </div>
-                                            <script>
-                                                yeardropdown();
-                                            </script>
-                                        </div> -->
-                                        <div>
-                                            <input name="graduation" type="checkbox" />졸업
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="post-track">
-                                    <div class="heading">*트랙</div>
+                                <div id="post-PW">
+                                    <div class="heading">PW</div>
                                     <div class="input">
                                         <div>
-                                            <input name="first_track" type="text" placeholder="1트랙" value="<%=memberDetail.first_track%>"/>
-                                            &nbsp;
-                                            <input name="second_track" type="text" placeholder="2트랙" value="<%=memberDetail.second_track%>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="post-github">
-                                    <div class="heading">Github</div>
-                                    <div class="input">
-                                        <div>
-                                            <input name="git_hub" type="text" placeholder="Github 주소" class="input" value="<%=memberDetail.git_hub%>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="post-email">
-                                    <div class="heading">이메일</div>
-                                    <div class="input">
-                                        <div>
-                                            <input name="email" type="text" placeholder="email 주소" class="input" value="<%=memberDetail.email%>"/>
+                                            <input name="pwd" type="password" placeholder="비밀번호" />
                                         </div>
                                     </div>
                                 </div>
@@ -113,9 +52,4 @@
         </footer>
     </div>
 </body>
-<script>
-        if (<%=memberDetail.graduation%> == 1) {
-            document.getElementsByName("graduation")[0].checked = true;
-        }
-</script>
 </html>

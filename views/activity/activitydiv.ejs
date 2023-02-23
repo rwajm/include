@@ -1,13 +1,13 @@
-<% memberList.forEach((data) => { %>
+<% activityListAll.forEach((data) => { %>
     <div id="<%=data.ID_PK%>" class="list">
-        <a href='./<%=data.ID_PK%>'>
-            <div class="data member">
+        <a href='./list?idx=<%=data.ID_PK%>'>
+            <div class="data activity">
                 <div>
                     <div style="font-size: 14px;">
-                        <b><%=data.studentID%>&nbsp<%=data.name%></b>&nbsp&nbsp&nbsp
+                        <b><%=data.TITLE%>&nbsp[<%=data.COMPLETE%>]</b>&nbsp&nbsp&nbsp
                     </div>
                     <div style="font-size: 12px;">
-                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%=data.first_track%> | <%=data.second_track%></div>
+                        <div><%=data.YEAR%>년도 <%=data.SEMESTER%>학기</div>
                     </div>
                 </div>
             </div>
