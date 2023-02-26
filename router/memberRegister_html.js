@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const MEMBER = require('../model/member');
+const { isLoggedIn } = require('./middleware');
 
 // http://localhost:8080/member/:reservedWord
 router.get('/:reservedWord', async (req, res) => {
@@ -75,13 +76,13 @@ router.get('/:reservedWord', async (req, res) => {
 //http://localhost:8080/member/post?type=update&idx=
 
 // http:localhost:8080/member/post?type=create
-router.post('/post', async (req, res) => {
+router.post('/post', isLoggedIn, async (req, res) => {
 
-    //html
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
 
     if (key.length === 1 && key.toString() === 'type' && value.toString() === 'create') {
+        
         let registerInfo = {
             studentID: req.body.studentID,
             name: req.body.name,
@@ -101,15 +102,16 @@ router.post('/post', async (req, res) => {
         })
     }
     else if (key.length === 2 && key[0].toString() === 'type' && value[0].toString() === 'update')  {
-        let member = {
+        
+        let updateInfo = {
             name: req.body.name,
             first_track: req.body.first_track,
             second_track: req.body.second_track,
             git_hub: req.body.git_hub,
             email: req.body.email,
-            graduation: 0
+            graduation: req.body.graduation
         }
-        await MEMBER.modify(value[1], member, (err, data) => {
+        await MEMBER.modify(value[1], updateInfo, (err, data) => {
             try {
 
                 res.redirect(`/member/${value[1]}`);
@@ -123,7 +125,7 @@ router.post('/post', async (req, res) => {
         res.status(400).json({ message: "Forbidden" });
 })
 
-router.delete('/:idx', async (req, res) => {
+router.delete('/:idx', isLoggedIn, async (req, res) => {
 
     await MEMBER.destroy(req.params.idx, (err, data) => {
         try {

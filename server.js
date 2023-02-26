@@ -52,7 +52,8 @@ app.use(express.static(path.join(__dirname, 'build')));
 // react
 const memberBoardRouter = require('./router/memberRegister_react');
 const activityBoardRouter = require('./router/activity_react');
-const signinRouter = require('./router/signin');
+const loginRouter = require('./router/login');
+const logoutRouter = require('./router/logout');
 const signupRouter = require('./router/signup');
 
 app.use(methodOverride('_method'));
@@ -70,7 +71,8 @@ app.get('/', (req, res) => {
 app.use('/member', memberBoardRouter);
 app.use('/activity', activityBoardRouter);
 app.use('/signup', signupRouter);
-app.use('/login', signinRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 app.listen(app.get('port'), (req, res) => {
     console.log(app.get('port'), "빈 포트에서 대기");

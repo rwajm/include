@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const activity = require('../model/activity');
 const valid = require('../validator/data_valid');
+const { isLoggedIn } = require('./middleware');
 
 // 전체 & 부분
 router.get('/list', async(req, res) => {
@@ -69,7 +70,7 @@ router.get('/list', async(req, res) => {
         res.status(400).json({ message: "Forbidden" });
 })
 
-router.get('/post', async(req, res) => {
+router.get('/post', isLoggedIn, async(req, res) => {
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
     let compare = Boolean;
@@ -99,7 +100,7 @@ router.get('/post', async(req, res) => {
         res.redirect('/activity/list');
 })
 
-router.post('/post', async(req, res) => {
+router.post('/post', valid.CheckActivityInfo, async(req, res) => {
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
     let compare = Boolean;
@@ -111,7 +112,16 @@ router.post('/post', async(req, res) => {
 
     if(key.length === 1 && compare) {
         // http://localhost:8080/activity/post?idx=
-        await activity.modify(value, req.body, (err, data) => {
+
+        let updateData = {
+            year : req.body.year,
+            semester : req.body.semester, 
+            details : req.body.details,
+            title : req.body.title,
+            complete : req.body.complete
+        }
+
+        await activity.modify(value, updateData, (err, data) => {
             try {
                 if(data !== null)    {
                     res.redirect(`/activity/list?idx=${value}`);
@@ -126,8 +136,16 @@ router.post('/post', async(req, res) => {
     }
     else if(key.length === 0 && compare)    {
         // http://localhost:8080/activity/post
+
+        let inputData = {
+            year : req.body.year,
+            semester : req.body.semester, 
+            details : req.body.details,
+            title : req.body.title,
+            complete : req.body.complete
+        }
         
-        await activity.create(req.body, (err, data) => {
+        await activity.create(inputData, (err, data) => {
             try {
                 if(data !==  null)    {
                     res.redirect(`/activity/list?year=${activityInfo.year}&semester=${activityInfo.semester}`);
