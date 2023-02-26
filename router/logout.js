@@ -12,3 +12,5 @@ router.post('/logout', isLoggedIn, (req, res) => {
     //html
     //res.redirect('/');
 });
+
+module.exports = router;
