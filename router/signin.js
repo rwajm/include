@@ -12,7 +12,6 @@ const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 //http://localhost:8080/login
 router.post('/', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        console.log(user);
         if (err) {
             return next(err);
         }
