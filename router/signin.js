@@ -12,20 +12,18 @@ const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 //http://localhost:8080/login
 router.post('/', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        console.log(user);
-        if (err) {
+        if (err)
             return next(err);
-        }
-        if (!user) {
-            req.flash('loginError', info.message);
-            return res.json(info);
-        }
+
+        if (!user)
+            return handleResponse(res, 404, info);
+
         return req.logIn(user, (loginError) => {
             if (loginError) {
                 console.error(loginError);
                 return next(loginError);
             }
-            return res.json({ message: "login success" });
+            handleResponse(res, 200, 'login success');
         });
     }) (req, res, next);
 });
@@ -53,7 +51,7 @@ router.post('/logout', (req, res, next) => {
 });
 
 let handleResponse = (res, code, statusMsg) => {
-    res.status(code).json({ status: statusMsg })
+    res.status(code).json({ message : statusMsg })
 }
 
 module.exports = router;
