@@ -15,15 +15,22 @@ router.post('/', isNotLoggedIn, (req, res, next) => {
         if (err)
             return next(err);
 
-        if (!user)
+        if (!user)  {
+            //react
             return handleResponse(res, 404, info);
+            //html
+            //res.redirect('/login')
+        }
 
         return req.logIn(user, (loginError) => {
             if (loginError) {
                 console.error(loginError);
                 return next(loginError);
             }
+            //react
             handleResponse(res, 200, 'login success');
+            //html
+            // res.redirect('back');
         });
     }) (req, res, next);
 });
