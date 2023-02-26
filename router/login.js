@@ -5,7 +5,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 
 //html
 // http://localhost:8080/login
-// router.get('/login', async(req, res) => {
+// router.get('/', async(req, res) => {
 //     res.render('signin/login');
 // })
 

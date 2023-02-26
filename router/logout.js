@@ -3,7 +3,7 @@ const router = express.Router();
 const { isLoggedIn } = require('./middleware');
 
 // http://localhost:8080/logout
-router.post('/logout', isLoggedIn, (req, res) => {
+router.post('/', isLoggedIn, (req, res) => {
 
     req.logout();
     req.session.destroy();
