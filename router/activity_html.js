@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const activity = require('../model/activity');
+const valid = require('../validator/data_valid');
 
 // 전체 & 부분
 router.get('/list', async(req, res) => {
@@ -110,14 +111,7 @@ router.post('/post', async(req, res) => {
 
     if(key.length === 1 && compare) {
         // http://localhost:8080/activity/post?idx=
-        let updateInfo = {
-            year : req.body.year,
-            semester : req.body.semester,
-            details : req.body.details,
-            title : req.body.title,
-            complete : req.body.complete
-        }
-        await activity.modify(value, updateInfo, (err, data) => {
+        await activity.modify(value, req.body, (err, data) => {
             try {
                 if(data !== null)    {
                     res.redirect(`/activity/list?idx=${value}`);
@@ -132,15 +126,8 @@ router.post('/post', async(req, res) => {
     }
     else if(key.length === 0 && compare)    {
         // http://localhost:8080/activity/post
-        let activityInfo = {
-            year : req.body.year,
-            semester : req.body.semester,
-            details : req.body.details,
-            title : req.body.title,
-            complete : req.body.complete
-        }
         
-        await activity.create(activityInfo, (err, data) => {
+        await activity.create(req.body, (err, data) => {
             try {
                 if(data !==  null)    {
                     res.redirect(`/activity/list?year=${activityInfo.year}&semester=${activityInfo.semester}`);
