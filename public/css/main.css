@@ -192,6 +192,18 @@ textarea {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.alert {
+    margin: auto;
+    min-width: 232px;
+    width : calc(100% * 2 / 3);
+    height : 20rem;
+    display: flex;
+}
+
+.cone {
+    fill: conic-gradient(from 90deg at 50% 0, rgb(255, 90, 30) 5%, rgb(255, 110, 45) 30%, rgb(255, 90, 20) 40%, rgb(200, 55, 0) 45%); 
+}
+
 #dataarea-wrapper .activity {
     margin: 0.25rem;
 }

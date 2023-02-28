@@ -25,20 +25,12 @@
                         <form id="postform" method="post" action = "/activity/post?idx=<%=data.ID_PK%>">
                     <% } %>
                             <div id="post-container">
-                                <div id="post-title">
-                                    <div class="heading">제목</div>
-                                    <div class="input">
-                                        <div>
-                                            <input name="title" type="text" placeholder="제목" class="input" value="<%=data.TITLE%>" />
-                                        </div>
-                                    </div>
-                                </div>
                                 <div id="post-season">
                                     <div class="heading">활동 시기</div>
                                     <div class="input">
                                         <div class="wrap">
                                             <div class="nowrap">
-                                                <select name="year" class="year">
+                                                <select name="YEAR" class="year">
                                                     <% let curyear = new Date().getFullYear() %>
                                                     <% for (let i = curyear; i >= 2000; i--) { %>
                                                         <option value="<%= i.toString().substr(-2)%>" <%= data.YEAR == i.toString().substr(-2) ? 'selected' : ''%>><%=i%></option>
@@ -46,17 +38,20 @@
                                                     <% } %>
                                                 </select>
                                                 년도&nbsp;
-                                                <select name="semester" class="semester">
+                                                <select name="SEMESTER" class="semester">
                                                     <option value="1" <%= data.SEMESTER == '1' ? 'selected' : '' %>>1</option>
                                                     <option value="2" <%= data.SEMESTER == '2' ? 'selected' : '' %>>2</option>
                                                 </select>
                                                 학기
-                                                <select name="complete" class="complete">
-                                                    <option value="1" <%= data.COMPLETE == '1' ? 'selected' : '' %>>진행중</option>
-                                                    <option value="2" <%= data.COMPLETE == '2' ? 'selected' : '' %>>종료(완성)</option>
-                                                    <option value="0" <%= data.COMPLETE == '0' ? 'selected' : '' %>>종료(미완성)</option>
-                                                </select>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="post-title">
+                                    <div class="heading">제목</div>
+                                    <div class="input">
+                                        <div>
+                                            <input name="TITLE" type="text" placeholder="제목" class="input" value="<%=data.TITLE%>" />
                                         </div>
                                     </div>
                                 </div>
@@ -64,9 +59,14 @@
                                     <div class="heading">설명</div>
                                     <div class="input">
                                         <div>
-                                            <textarea name="details" type="text" placeholder="설명" class="input"><%=data.DETAILS%></textarea>
+                                            <textarea name="DETAILS" type="text" placeholder="설명" class="input"><%=data.DETAILS%></textarea>
                                         </div>
                                     </div>
+                                    <select name="COMPLETE" class="complete">
+                                        <option value="1" <%= data.COMPLETE == '1' ? 'selected' : '' %>>진행중</option>
+                                        <option value="2" <%= data.COMPLETE == '2' ? 'selected' : '' %>>종료(완성)</option>
+                                        <option value="0" <%= data.COMPLETE == '0' ? 'selected' : '' %>>종료(미완성)</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="buttonrow">
