@@ -27,7 +27,7 @@ router.get('/list', async(req, res) => {
                     res.json(data);
             }
             catch (err) {
-                console.log("specific activity router error " + err);
+                console.log("specific member router error " + err);
             }
         })
     }
@@ -45,7 +45,7 @@ router.get('/list', async(req, res) => {
                     res.json(data);
             }
             catch (err) {
-                console.log("specific activity router error " + err);
+                console.log("specific member router error " + err);
             }
         })
     }
@@ -73,7 +73,7 @@ router.get('/post', isLoggedIn, async(req, res) => {
                     res.json(err);
             }
             catch(err)  {
-                console.log("activity post router error " + err);
+                console.log("member post router error " + err);
             }
         })
     }
@@ -113,7 +113,7 @@ router.post('/post', valid.CheckMemberInfo, valid.errorCallback, async(req, res)
                     res.json(err);
             }
             catch(err)  {
-                console.log("activity post router error " + err);
+                console.log("member post router error " + err);
             }
         })
     }
@@ -137,7 +137,7 @@ router.post('/post', valid.CheckMemberInfo, valid.errorCallback, async(req, res)
                     res.json(err);
             }
             catch(err)  {
-                console.log("activity post router error " + err);
+                console.log("member post router error " + err);
             }
         })
     }
@@ -145,7 +145,7 @@ router.post('/post', valid.CheckMemberInfo, valid.errorCallback, async(req, res)
         res.status(404).json({ message : "Not found" });
 })
 
-// http://localhost:8080/activity/list?idx=
+// http://localhost:8080/member/list?idx=
 router.delete('/list', isLoggedIn, async(req, res) => {
     let id = req.query.idx;
 
@@ -158,7 +158,7 @@ router.delete('/list', isLoggedIn, async(req, res) => {
                 res.json(err);
         }
         catch (err) {
-            console.log("activity delete router error " + err);
+            console.log("member delete router error " + err);
             res.status(500).json({ message: "Internal Server Error" });
         }
     })
