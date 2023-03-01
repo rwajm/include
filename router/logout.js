@@ -8,9 +8,9 @@ router.post('/', isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     //react
-    res.status(200).json({ message : "logout success"});
+    //res.status(200).json({ message : "logout success"});
     //html
-    //res.redirect('/');
+    res.redirect('/');
 });
 
 module.exports = router;
