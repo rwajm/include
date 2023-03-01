@@ -1,8 +1,17 @@
 const { check, validationResult } = require('express-validator');
 
 const valid = {
+    CheckMemberInfo : [
+        //check('studentID').isNumeric({min : 7, max : 7}).notEmpty(),
+        check('name').notEmpty(),
+        check('first_track').notEmpty(),
+        check('git_hub').isURL().notEmpty(),
+        check('email').isEmail().notEmpty(),
+        check('graduation').isInt({ gt : 0, lt : 1}).notEmpty()
+    ],
+
     CheckRegisterInfo : [
-        check('studentID').isNumeric({min : 7, max : 7}).notEmpty(),
+        //check('studentID').isNumeric({min : 7, max : 7}).notEmpty(),
         check('name').notEmpty(),
         check('first_track').notEmpty(),
         check('git_hub').isURL().notEmpty(),
