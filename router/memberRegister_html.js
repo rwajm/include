@@ -21,7 +21,7 @@ router.get('/list', async(req, res) => {
                     if(data.length === 0)  
                         res.status(404).json({ message: "Not Found" });
                     else
-                        res.render('member/detail', { memberList : data[0] });
+                        res.render('member/detail', { memberDetail : data[0] });
                 }
                 else if(err !== null)
                     res.json(data);
