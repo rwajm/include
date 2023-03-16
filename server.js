@@ -59,6 +59,7 @@ app.engine('html', require('ejs').__express);
 //html
 const memberBoardRouter = require('./router/memberRegister_html');
 const activityBoardRouter= require('./router/activity_html');
+const mainRouter = require('./router/home_html');
 // react
 // const memberBoardRouter = require('./router/memberRegister_react');
 // const activityBoardRouter = require('./router/activity_react');
@@ -71,11 +72,11 @@ app.use(methodOverride('_method'));
 app.use(flash());
 app.use('/public',express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    res.render('home.html');
-    //res.header("Access-Control-Allow-Origin", "http://localhost:8080")
-})
+// app.get('/', (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:8080")
+// })
 
+app.use('/', mainRouter);
 app.use('/member', memberBoardRouter);
 app.use('/activity', activityBoardRouter);
 app.use('/signup', signupRouter);
