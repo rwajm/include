@@ -7,6 +7,7 @@ const passportConfig = require('./passport/index');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const MySQLStore = require('express-mysql-session')(session);
 
 require('dotenv').config();
 
@@ -15,16 +16,26 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+let options = {
+    host: process.env.host,
+    port: '3306',
+    user: process.env.user,
+    password: process.env.password,
+    database: 'include',
+};
+
+let sessionStore = new MySQLStore(options);
+
 app.use(session({
     secret : process.env.secret,
     resave : false,
     saveUninitialized : false,
-    //store : sessionStore,
     cookie: {
         httpOnly: true,
         secure: false,
         maxAge: 1000 * 60 * 60
-    }
+    },
+    store : sessionStore
 }));
 
 app.use(passport.initialize());

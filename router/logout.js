@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { isLoggedIn } = require('./middleware');
-require('passport');
 require('express-session');
 
 // http://localhost:8080/logout
