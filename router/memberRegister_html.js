@@ -3,15 +3,18 @@ const router = express.Router();
 const member = require('../model/member');
 const valid = require('../validator/data_valid');
 const { isLoggedIn } = require('./middleware');
+require('express-session');
 
 // 전체 & 부분
 router.get('/list', async(req, res) => {
     let keys = Object.keys(req.query);
     let values = Object.values(req.query);
-
+    let verified = Object.assign({}, req.session);
     let compare = Boolean;
+    
     if(keys.length === 1)
         compare = ([ keys[0] ].toString() === [ 'idx' ].toString())
+    console.log(verified);
     
     if (keys.length === 1 && compare) {
         // http://localhost:8080/member/list?idx=
@@ -21,7 +24,7 @@ router.get('/list', async(req, res) => {
                     if(data.length === 0)  
                         res.status(404).json({ message: "Not Found" });
                     else
-                        res.render('member/detail', { memberList : data[0] });
+                        res.render('member/detail', { memberDetail : data[0] });
                 }
                 else if(err !== null)
                     res.json(data);
