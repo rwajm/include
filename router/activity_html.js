@@ -7,7 +7,7 @@ require('express-session');
 
 
 // 전체 & 부분
-router.get('/list', async(req, res) => {
+router.get('/list', (req, res) => {
     let keys = Object.keys(req.query);
     let values = Object.values(req.query);
     let verified = Object.assign({}, req.session.passport);
@@ -19,8 +19,9 @@ router.get('/list', async(req, res) => {
         compare = ([ keys[0] ].toString() === [ 'idx' ].toString())
     if (Object.values(verified).toString() === 'admin') {
         if (keys.length === 2 && compare) {
+            //console.log(verified);
             // ex) ttp://localhost:8080/activity/list?year=22&semester=2
-            await activity.getActivityByPeriod(values, (err, data) => {
+            activity.getActivityByPeriod(values, (err, data) => {
                 try {
                     if(data !== null)
                         res.render('activity/list', { activityList : data, isLoggedIn : 1 });
@@ -35,7 +36,7 @@ router.get('/list', async(req, res) => {
         }
         else if (keys.length === 1 && compare) {
             // http://localhost:8080/activity/list?idx=
-            await activity.getActivityById(values, (err, data) => {
+            activity.getActivityById(values, (err, data) => {
                 try {
                     if (data !== null)  {
                         if(data.length === 0)  
@@ -53,7 +54,7 @@ router.get('/list', async(req, res) => {
         }
         else if (keys.length === 0)  {
             // http://localhost:8080/activity/list
-            await activity.getAll((err, data) => {
+            activity.getAll((err, data) => {
                 try {
                     if (data !== null)  {
                         if(data.length === 0)
@@ -75,7 +76,7 @@ router.get('/list', async(req, res) => {
     else    {
         if (keys.length === 2 && compare) {
             // ex) ttp://localhost:8080/activity/list?year=22&semester=2
-            await activity.getActivityByPeriod(values, (err, data) => {
+            activity.getActivityByPeriod(values, (err, data) => {
                 try {
                     if(data !== null)
                         res.render('activity/list', { activityList : data, isLoggedIn : 0 });
@@ -90,7 +91,7 @@ router.get('/list', async(req, res) => {
         }
         else if (keys.length === 1 && compare) {
             // http://localhost:8080/activity/list?idx=
-            await activity.getActivityById(values, (err, data) => {
+            activity.getActivityById(values, (err, data) => {
                 try {
                     if (data !== null)  {
                         if(data.length === 0)  
@@ -108,7 +109,7 @@ router.get('/list', async(req, res) => {
         }
         else if (keys.length === 0)  {
             // http://localhost:8080/activity/list
-            await activity.getAll((err, data) => {
+            activity.getAll((err, data) => {
                 try {
                     if (data !== null)  {
                         if(data.length === 0)
@@ -127,7 +128,7 @@ router.get('/list', async(req, res) => {
     }
 })
 
-router.get('/post', isLoggedIn, async(req, res) => {
+router.get('/post', isLoggedIn, (req, res) => {
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
     let compare = Boolean;
@@ -137,7 +138,7 @@ router.get('/post', isLoggedIn, async(req, res) => {
 
     if(key.length === 1 && compare) {
         // http://localhost:8080/activity/post?idx=
-        await activity.getActivityById(value, (err, data) => {
+        activity.getActivityById(value, (err, data) => {
             try {
                 if(data !== null)    {
                     console.log(data);
@@ -157,7 +158,7 @@ router.get('/post', isLoggedIn, async(req, res) => {
         res.redirect('/activity/list');
 })
 
-router.post('/post', valid.CheckActivityInfo, valid.errorCallback, async(req, res) => {
+router.post('/post', valid.CheckActivityInfo, valid.errorCallback,(req, res) => {
     let key = Object.keys(req.query);
     let value = Object.values(req.query);
     let compare = Boolean;
@@ -178,7 +179,7 @@ router.post('/post', valid.CheckActivityInfo, valid.errorCallback, async(req, re
             complete : req.body.complete
         }
 
-        await activity.modify(value, updateData, (err, data) => {
+        activity.modify(value, updateData, (err, data) => {
             try {
                 if(data !== null)    {
                     res.redirect(`/activity/list?idx=${value}`);
@@ -202,7 +203,7 @@ router.post('/post', valid.CheckActivityInfo, valid.errorCallback, async(req, re
             complete : req.body.complete
         }
         
-        await activity.create(inputData, (err, data) => {
+        activity.create(inputData, (err, data) => {
             try {
                 if(data !==  null)    {
                     res.redirect(`/activity/list?year=${activityInfo.year}&semester=${activityInfo.semester}`);
@@ -220,10 +221,10 @@ router.post('/post', valid.CheckActivityInfo, valid.errorCallback, async(req, re
 })
 
 // http://localhost:8080/activity/list?idx=
-router.delete('/list', isLoggedIn, async(req, res) => {
+router.delete('/list', isLoggedIn, (req, res) => {
     let id = req.query.idx;
 
-    await activity.destroy(id, (err, data) => {
+    activity.destroy(id, (err, data) => {
         try {
             if(data !== null) {
                 res.redirect('/activity/list');
